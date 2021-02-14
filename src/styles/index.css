@@ -1,0 +1,103 @@
+:root {
+	--font-main: Arial, Helvetica, sans-serif;
+	--text: black;
+	--bg: white;
+}
+
+/* utils */
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: var(--font-main);
+	background-color: var(--bg);
+	color: var(--text);
+}
+h1,
+h2,
+h3 {
+	text-transform: capitalize;
+}
+
+section {
+	width: 90%;
+	height: 80%;
+	border: 1px solid var(--text);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+/* top-level */
+.skeleton {
+	height: 100vh;
+}
+
+.main {
+	height: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas: 'left center right';
+}
+
+.part {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.header {
+	position: relative;
+	top: -20px;
+}
+
+/* left */
+
+.left {
+	grid-area: left;
+	display: flex;
+	flex-direction: column;
+}
+.done {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+}
+.item-done {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	border-bottom: 1px solid var(--text);
+}
+.bin {
+	margin: 0 1rem;
+	cursor: pointer;
+}
+
+/* right */
+.right {
+	grid-area: right;
+	display: flex;
+	flex-direction: column;
+}
+
+.right form {
+	display: grid;
+	flex-direction: column;
+	grid-template-areas: 'title' 'description' 'end' 'submit';
+	grid-template-rows: 1fr 3fr 1fr 1fr;
+}
+
+.form-title {
+	grid-area: title;
+	display: flex;
+	flex-direction: column;
+}
+.form-end {
+	grid-area: end;
+}
