@@ -1,8 +1,6 @@
 import React, { useContext, useReducer } from 'react';
 import DailyContext from '../contexts/DailyContext';
-import useLocalStorage from '../hooks/useLocalStorage';
-
-const id = idGenerator();
+import { nanoid } from 'nanoid';
 
 function reducer(state, action) {
 	if (action.type === 'setTitle') {
@@ -31,7 +29,7 @@ function Right() {
 			description,
 			endDate,
 			creationDate: new Date().toLocaleDateString(),
-			id: id.next().value,
+			id: nanoid(),
 			time: new Date().getTime(),
 			undone: 'grey'
 		});
@@ -70,8 +68,9 @@ function Right() {
 
 export default Right;
 
-function* idGenerator() {
+/*function* idGenerator() {
 	let start = JSON.parse(localStorage.getItem('items'));
+	console.log(start);
 	if (start === null || start.length === 0) {
 		start = 0;
 	} else {
@@ -82,4 +81,4 @@ function* idGenerator() {
 	while (true) {
 		yield start++;
 	}
-}
+}*/

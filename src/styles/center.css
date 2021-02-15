@@ -1,3 +1,10 @@
+h1,
+h2,
+h3,
+h4 {
+	text-transform: capitalize;
+}
+
 .center {
 	grid-area: center;
 	display: flex;
@@ -10,39 +17,7 @@
 	align-items: center;
 }
 
-.item-current {
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	width: 100%;
-	border-bottom: 1px solid var(--text);
-}
-
-.item-frame {
-	width: 90%;
-	height: 30px;
-	display: flex;
-	justify-content: space-between;
-}
-
-.check {
-	margin: 0 1rem;
-	cursor: pointer;
-}
-
 /* timer */
 .seconds {
 	font-size: .8rem;
-}
-
-.status {
-	width: 30px;
-	height: 100%;
-	background-color: rgb(199, 196, 196);
-}
-.red {
-	background-color: rgb(155, 0, 0);
-}
-.green {
-	background-color: green;
 }

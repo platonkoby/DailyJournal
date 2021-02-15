@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { FaHandMiddleFinger } from 'react-icons/fa';
 
-function ItemFrame({ item, currentItems, restart, doneItems }) {
-	const { title } = item;
+function ItemFrame({ item, currentItems, mouseOver, mouseOut }) {
+	const { title, description, endDate } = item;
 	const [ notDone, setNotDone ] = useState('grey');
+
 	useEffect(
 		() => {
 			if (currentItems !== undefined) {
@@ -23,10 +25,12 @@ function ItemFrame({ item, currentItems, restart, doneItems }) {
 	}, []);
 
 	return (
-		<div className="item-frame">
-			<h2>{title}</h2>
-			<div className={`status ${notDone}`} />
-		</div>
+		<React.Fragment>
+			<div className="item-frame" onMouseOver={mouseOver} onMouseOut={mouseOut}>
+				<h2>{title}</h2>
+				<div className={`status ${notDone}`} />
+			</div>
+		</React.Fragment>
 	);
 }
 
