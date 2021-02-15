@@ -17,7 +17,7 @@ function Timer() {
 	}, []);
 	useEffect(
 		() => {
-			if (`${hours}${minutes}${seconds}` === '18445') {
+			if (`${hours}${minutes}${seconds}` === '800') {
 				newDay(true);
 			}
 		},

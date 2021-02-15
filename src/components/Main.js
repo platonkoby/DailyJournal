@@ -16,7 +16,6 @@ function Main() {
 	const [ restart, setRestart ] = useState(false);
 
 	const checkEndDates = () => {
-		console.log('checkEndDates');
 		const all = JSON.parse(localStorage.getItem('items'));
 		let items = all.filter(({ endDate }) => dateComparison(endDate, new Date().toLocaleDateString()));
 
@@ -45,12 +44,10 @@ function Main() {
 	};
 
 	const newDay = (bool) => {
-		console.log('newDay');
 		checkEndDates();
 		setRestart(bool);
 	};
 	const toDone = (item) => {
-		console.log('toDone');
 		item.undone = 'green';
 		setDoneItems((i) => [ ...i, item ]);
 		setCurrentItems((i) => i.filter((el) => el.id !== item.id));
@@ -58,21 +55,18 @@ function Main() {
 	};
 
 	const removerFromDone = (item) => {
-		console.log('removerFromDone');
 		let items = doneItems.filter(({ id }) => item.id !== id);
 		setDoneItems(items);
 		updateItems('delete', items);
 	};
 
 	const selectItem = (newItem) => {
-		console.log('selectItem');
 		setItem(newItem);
 	};
 
 	useEffect(
 		() => {
 			if (item !== null) {
-				console.log('effect item');
 				updateItems('update', item, 'allItems');
 				setCurrentItems((c) => [ ...c, item ]);
 			}
@@ -81,7 +75,6 @@ function Main() {
 	);
 	useEffect(
 		() => {
-			console.log('effect storageDone');
 			setDoneItems(storageDone);
 		},
 		[ storageDone ]
@@ -89,7 +82,6 @@ function Main() {
 	useEffect(
 		() => {
 			if (restart) {
-				console.log('effect restart');
 				setDoneItems([]);
 				updateItems('restart');
 				setRestart(false);

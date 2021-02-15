@@ -27,9 +27,7 @@ function useLocalStorage(data = 'allItems') {
 		if (method === 'restart') {
 			let all = JSON.parse(localStorage.getItem('items'));
 			all = all.map((item) => {
-				console.log('there');
 				if (item.undone === 'red' || item.undone === 'grey') {
-					console.log('here');
 					item.undone = 'red';
 				} else {
 					item.undone = 'grey';
