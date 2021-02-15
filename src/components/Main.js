@@ -4,6 +4,7 @@ import Right from './Right';
 import Left from './Left';
 import Center from './Center';
 import useLocalStorage from '../hooks/useLocalStorage';
+import dateComparison from '../utilities/endDateCalc';
 
 function Main() {
 	const [ item, setItem ] = useState(null);
@@ -14,10 +15,42 @@ function Main() {
 	const [ undoneItems, setUndoneItems ] = useState([]);
 	const [ restart, setRestart ] = useState(false);
 
+	const checkEndDates = () => {
+		console.log('checkEndDates');
+		const all = JSON.parse(localStorage.getItem('items'));
+		let items = all.filter(({ endDate }) => dateComparison(endDate, new Date().toLocaleDateString()));
+
+		if (items.length !== all.length) {
+			localStorage.removeItem('items');
+			localStorage.removeItem('allItems');
+			setUndoneItems(currentItems);
+			setCurrentItems(
+				items.map((item) => {
+					if (item.undone === 'green') {
+						return { ...item, undone: 'grey' };
+					}
+					return item;
+				})
+			);
+
+			localStorage.setItem('items', JSON.stringify(items));
+			return;
+		}
+		setUndoneItems(currentItems);
+		let otherItems = doneItems.map((item) => {
+			item.undone = 'grey';
+			return item;
+		});
+		setCurrentItems((i) => [ ...i, ...otherItems ]);
+	};
+
 	const newDay = (bool) => {
+		console.log('newDay');
+		checkEndDates();
 		setRestart(bool);
 	};
 	const toDone = (item) => {
+		console.log('toDone');
 		item.undone = 'green';
 		setDoneItems((i) => [ ...i, item ]);
 		setCurrentItems((i) => i.filter((el) => el.id !== item.id));
@@ -25,14 +58,21 @@ function Main() {
 	};
 
 	const removerFromDone = (item) => {
+		console.log('removerFromDone');
 		let items = doneItems.filter(({ id }) => item.id !== id);
 		setDoneItems(items);
 		updateItems('delete', items);
 	};
 
+	const selectItem = (newItem) => {
+		console.log('selectItem');
+		setItem(newItem);
+	};
+
 	useEffect(
 		() => {
 			if (item !== null) {
+				console.log('effect item');
 				updateItems('update', item, 'allItems');
 				setCurrentItems((c) => [ ...c, item ]);
 			}
@@ -41,6 +81,7 @@ function Main() {
 	);
 	useEffect(
 		() => {
+			console.log('effect storageDone');
 			setDoneItems(storageDone);
 		},
 		[ storageDone ]
@@ -48,12 +89,7 @@ function Main() {
 	useEffect(
 		() => {
 			if (restart) {
-				setUndoneItems(currentItems);
-				let items = doneItems.map((item) => {
-					item.undone = 'grey';
-					return item;
-				});
-				setCurrentItems((i) => [ ...i, ...items ]);
+				console.log('effect restart');
 				setDoneItems([]);
 				updateItems('restart');
 				setRestart(false);
@@ -62,9 +98,6 @@ function Main() {
 		[ restart ]
 	);
 
-	const selectItem = (newItem) => {
-		setItem(newItem);
-	};
 	if (storageItems === null) {
 		return <h1>Loading</h1>;
 	}

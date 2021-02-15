@@ -1,0 +1,83 @@
+storage:
+    'items': done + allItems
+    'allItems': currentItems
+    'done': doneItems
+
+Main functions:
+    -effect storageDone - set doneItems to storageDone
+    -selectItem - sets item to new created item
+    -effect item - 
+                    1. adds new item to localStorage 'allItems'. 
+                    2. set currentItems to the old items + new item
+
+    -effect restart - 
+
+                    1. if (restart is true)
+                        -sets doneItems to []
+                        -updateItems('restart')
+                            1. gets all from 'items'
+                            2. changes values of all.undone where 'red' or 'grey' to 'red'
+                            3. changes values of all.undone where 'green' to 'grey'
+                            4. changes localStorage('done') to []
+                            5. sets 'allItems' (currentItems) to all ('items')
+                            6. returns changed allItems
+                        -sets restart back to false
+
+    -toDone(item) - 
+                    1. changes item.undone to 'green'. 
+                    2. sets doneItems to old items + new item.
+                    3. Sets currentItems to old items - item.
+                    4. updates localStorage('done')
+
+    -removeFromDone(item) - 
+
+                    1. sets doneItems to old items - item
+                    2. updates localStorage('done'), results in change localStorage('items')
+    
+    -checkEndDates() - 
+
+                    1. gets all ('items') from storage
+                    2. filters out expired items from all
+                    3. if (there were filtered items)
+                        -clears storage for 'items' and 'allItems'
+                        -makes current items red
+                        -sets current items to all items, and changes all green to grey
+                        -sets localStorage('items') to filtered all and changes any grey for green
+                        -return
+                    4. if (no items filtered out)
+                        -make current items red
+                        -changes doneItems.undone = 'grey'
+                        -sets currentItems to old red items + done grey items
+
+    -newDay(bool) -
+                    1. checkEndDates()
+                    2. sets restart to bool
+
+
+
+on Initial Render:
+
+    1.Effect storageDone
+
+on Add Item:
+
+    1. selectItem
+    2. effect item
+
+on Push Item to done:
+
+    1. toDone
+
+on Remove Item: 
+
+    1. removeFromDone
+
+on 24 Hours Pass:
+
+    1. newDay(true)
+        -checkEndDates()
+        ...
+    2. effect restart
+
+on currentItem Hover:
+
