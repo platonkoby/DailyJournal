@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react';
+import React, { useContext, useReducer, useRef } from 'react';
 import DailyContext from '../contexts/DailyContext';
 import { nanoid } from 'nanoid';
 
@@ -11,6 +11,9 @@ function reducer(state, action) {
 	}
 	if (action.type === 'endDate') {
 		return { ...state, endDate: new Date(action.data).toLocaleDateString() };
+	}
+	if (action.type === 'refresh') {
+		return { title: '', description: '', endDate: '' };
 	} else {
 		console.warn('Something went wrong in reducer');
 		return state;
@@ -21,8 +24,15 @@ function Right() {
 	const { selectItem } = useContext(DailyContext);
 	const [ state, dispatch ] = useReducer(reducer, { title: '', description: '', endDate: '' });
 	const { title, description, endDate } = state;
+	const refTitle = useRef();
+	const refDescription = useRef();
+	const refEndDate = useRef();
 
 	const handleSubmit = (e) => {
+		refTitle.current.value = '';
+		refDescription.current.value = '';
+		refEndDate.current.value = '';
+		dispatch({ type: 'refresh' });
 		e.preventDefault();
 		selectItem({
 			title,
@@ -42,9 +52,14 @@ function Right() {
 				<form action="#" onSubmit={handleSubmit}>
 					<div className="form-title">
 						<label htmlFor="title">Title</label>
-						<input name="title" onChange={(e) => dispatch({ type: 'setTitle', data: e.target.value })} />
+						<input
+							ref={refTitle}
+							name="title"
+							onChange={(e) => dispatch({ type: 'setTitle', data: e.target.value })}
+						/>
 					</div>
 					<textarea
+						ref={refDescription}
 						placeholder="description"
 						name="desription"
 						cols="30"
@@ -54,6 +69,7 @@ function Right() {
 					<div className="form-end">
 						<label htmlFor="end">End date</label>
 						<input
+							ref={refEndDate}
 							type="date"
 							name="end"
 							onChange={(e) => dispatch({ type: 'endDate', data: e.target.value })}

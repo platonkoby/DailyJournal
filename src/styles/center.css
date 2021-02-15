@@ -15,6 +15,14 @@ h4 {
 	flex-direction: column;
 	justify-content: flex-start;
 	align-items: center;
+	overflow: scroll;
+}
+.current {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+.current::-webkit-scrollbar {
+	display: none;
 }
 
 /* timer */
