@@ -1,6 +1,8 @@
-import React, { useContext, useReducer, useRef } from 'react';
+import React, { useContext, useEffect, useReducer, useRef, useState } from 'react';
+import '../styles/right.css';
 import DailyContext from '../contexts/DailyContext';
 import { nanoid } from 'nanoid';
+import { dateChecker } from '../utilities/endDateCalc';
 
 function reducer(state, action) {
 	if (action.type === 'setTitle') {
@@ -24,6 +26,7 @@ function Right() {
 	const { selectItem } = useContext(DailyContext);
 	const [ state, dispatch ] = useReducer(reducer, { title: '', description: '', endDate: '' });
 	const { title, description, endDate } = state;
+	const [ error, setError ] = useState(false);
 	const refTitle = useRef();
 	const refDescription = useRef();
 	const refEndDate = useRef();
@@ -34,6 +37,11 @@ function Right() {
 		refEndDate.current.value = '';
 		dispatch({ type: 'refresh' });
 		e.preventDefault();
+		if (!dateChecker(endDate)) {
+			setError(true);
+			return;
+		}
+		console.log('here');
 		selectItem({
 			title,
 			description,
@@ -50,6 +58,7 @@ function Right() {
 			<h2 className="header">Create</h2>
 			<section className="create">
 				<form action="#" onSubmit={handleSubmit}>
+					{error && <div className="alert">The date format is wrong </div>}
 					<div className="form-title">
 						<label htmlFor="title">Title</label>
 						<input
@@ -69,6 +78,7 @@ function Right() {
 					<div className="form-end">
 						<label htmlFor="end">End date</label>
 						<input
+							placeholder="yyyy-mm-dd"
 							ref={refEndDate}
 							type="date"
 							name="end"
@@ -83,18 +93,3 @@ function Right() {
 }
 
 export default Right;
-
-/*function* idGenerator() {
-	let start = JSON.parse(localStorage.getItem('items'));
-	console.log(start);
-	if (start === null || start.length === 0) {
-		start = 0;
-	} else {
-		start = start[start.length - 1];
-		start = start.id + 1;
-	}
-
-	while (true) {
-		yield start++;
-	}
-}*/

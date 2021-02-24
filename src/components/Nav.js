@@ -1,10 +1,15 @@
 import React from 'react';
+import '../styles/nav.css';
 import { Link } from 'react-router-dom';
 
 const navbar = [
 	{
 		title: 'Daily CheckUp',
 		url: 'daily-checkup'
+	},
+	{
+		title: 'Tough Love',
+		url: 'tough-love'
 	}
 ];
 

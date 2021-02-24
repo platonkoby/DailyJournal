@@ -1,0 +1,4 @@
+-Push notifications on the day bedore endDate
+-Design
+-editing of items
+-number of times skipped this month

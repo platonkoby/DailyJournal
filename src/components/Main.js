@@ -4,7 +4,7 @@ import Right from './Right';
 import Left from './Left';
 import Center from './Center';
 import useLocalStorage from '../hooks/useLocalStorage';
-import dateComparison from '../utilities/endDateCalc';
+import dateComparisonTest from '../utilities/endDateCalc';
 
 function Main() {
 	const [ item, setItem ] = useState(null);
@@ -17,7 +17,7 @@ function Main() {
 
 	const checkEndDates = () => {
 		const all = JSON.parse(localStorage.getItem('items'));
-		let items = all.filter(({ endDate }) => dateComparison(endDate, new Date().toLocaleDateString()));
+		let items = all.filter(({ endDate }) => dateComparisonTest(endDate, new Date().toLocaleDateString()));
 
 		if (items.length !== all.length) {
 			localStorage.removeItem('items');

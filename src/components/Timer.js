@@ -15,6 +15,7 @@ function Timer() {
 			setSeconds(date.getUTCSeconds());
 		}, 1000);
 	}, []);
+
 	useEffect(
 		() => {
 			if (`${hours}${minutes}${seconds}` === '800') {
